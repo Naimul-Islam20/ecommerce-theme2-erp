@@ -1,0 +1,49 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { ProductCard } from "@/components/ProductCard";
+import { ProductDetail } from "@/components/ProductDetail";
+import { PageHero } from "@/components/PageHero";
+import { getProduct, products } from "@/lib/products";
+
+type Props = { params: Promise<{ id: string }> };
+
+export function generateStaticParams() {
+  return products.map((product) => ({ id: product.id }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const product = getProduct(id);
+  return { title: product?.name ?? "Product", description: product?.description };
+}
+
+export default async function ProductPage({ params }: Props) {
+  const { id } = await params;
+  const product = getProduct(id);
+  if (!product) notFound();
+  const related = products.filter((item) => item.id !== product.id).slice(0, 4);
+
+  return (
+    <>
+      <PageHero crumbs="Home / Shop / Product" title="পণ্যের বিস্তারিত" />
+      <section className="py-14 sm:py-[78px]">
+        <div className="page-wrap">
+          <ProductDetail product={product} />
+        </div>
+      </section>
+      <section className="bg-cream-2 py-14 sm:py-[78px]">
+        <div className="page-wrap">
+          <div className="mb-[34px]">
+            <div className="text-xs font-extrabold tracking-[2px] text-orange uppercase">You may also like</div>
+            <h2 className="mt-1.5 font-serif text-[clamp(32px,4vw,50px)] leading-[1.1] text-green-dark">আরও দেশজ পণ্য</h2>
+          </div>
+          <div className="grid grid-cols-2 gap-3 sm:gap-6 xl:grid-cols-4">
+            {related.map((item) => (
+              <ProductCard key={item.id} product={item} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
