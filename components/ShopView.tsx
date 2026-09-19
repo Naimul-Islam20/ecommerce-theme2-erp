@@ -28,15 +28,17 @@ export function ShopView() {
   }, [active, term, sort]);
 
   return (
-    <section className="py-14 sm:py-[78px]">
-      <div className="page-wrap grid gap-9 lg:grid-cols-[250px_1fr]">
-        <aside className="rounded-[18px] border border-[#e6dfd0] bg-white p-5 lg:sticky lg:top-[118px] lg:self-start">
-          <h3 className="mb-4">Categories</h3>
-          <div className="flex flex-row flex-wrap gap-[5px] lg:flex-col">
+    <section className="py-12 sm:py-16">
+      <div className="page-wrap grid gap-8 lg:grid-cols-[200px_1fr]">
+        <aside className="border border-line bg-white p-4 lg:sticky lg:top-[90px] lg:self-start">
+          <h3 className="mb-3 text-[12px] font-semibold tracking-[0.12em] text-muted uppercase">Categories</h3>
+          <div className="flex flex-wrap gap-1 lg:flex-col">
             {categories.map((category) => (
               <button
                 key={category}
-                className={`rounded-[10px] px-2.5 py-[9px] text-left text-[#46534b] ${active === category ? "bg-[#edf3ed] font-extrabold text-green" : "hover:bg-[#edf3ed] hover:font-extrabold hover:text-green"}`}
+                className={`px-2.5 py-2 text-left text-[13px] transition ${
+                  active === category ? "bg-green-dark font-semibold text-white" : "text-ink hover:bg-cream-2"
+                }`}
                 onClick={() => setActive(category)}
               >
                 {category}
@@ -45,20 +47,16 @@ export function ShopView() {
           </div>
         </aside>
         <div>
-          <div className="mb-5 flex flex-col items-stretch justify-between gap-3 sm:flex-row sm:items-center">
-            <strong>{filtered.length}টি পণ্য</strong>
-            <div className="flex flex-wrap gap-2.5">
+          <div className="mb-5 flex flex-col gap-3 border border-line bg-white p-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-[13px] font-medium text-muted">{filtered.length} products</p>
+            <div className="flex flex-wrap gap-2">
               <input
                 value={term}
-                onChange={(event) => setTerm(event.target.value)}
-                placeholder="পণ্য খুঁজুন"
-                className="min-w-0 rounded-xl border border-[#ded9ce] bg-white px-[13px] py-[11px] sm:min-w-[250px]"
+                onChange={(e) => setTerm(e.target.value)}
+                placeholder="Search"
+                className="min-w-0 flex-1 border border-line px-3 py-2 text-[13px] outline-none focus:border-green sm:min-w-[180px]"
               />
-              <select
-                value={sort}
-                onChange={(event) => setSort(event.target.value)}
-                className="rounded-xl border border-[#ded9ce] bg-white px-[13px] py-[11px]"
-              >
+              <select value={sort} onChange={(e) => setSort(e.target.value)} className="border border-line px-3 py-2 text-[13px] outline-none">
                 <option value="featured">Featured</option>
                 <option value="low">Price: Low to High</option>
                 <option value="high">Price: High to Low</option>
@@ -67,9 +65,9 @@ export function ShopView() {
             </div>
           </div>
           {filtered.length === 0 ? (
-            <div className="px-5 py-14 text-center text-muted">এই ফিল্টারে কোনো পণ্য পাওয়া যায়নি।</div>
+            <div className="border border-dashed border-line py-16 text-center text-[14px] text-muted">No products found.</div>
           ) : (
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-[22px] lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filtered.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

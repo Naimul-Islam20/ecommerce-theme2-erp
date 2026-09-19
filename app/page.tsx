@@ -3,6 +3,7 @@ import { Hero } from "@/components/Hero";
 import { ProductCard } from "@/components/ProductCard";
 import { SectionLink } from "@/components/PageHero";
 import { VideoShop } from "@/components/VideoShop";
+import { IconLeaf, IconPhone, IconShield, IconTruck } from "@/components/Icons";
 import { products, shopCategories, shopHref } from "@/lib/products";
 
 const concerns = [
@@ -27,20 +28,27 @@ const reviews = [
   { text: "পিঠা ও দইয়ের মতো আঞ্চলিক পণ্য এক জায়গায় পাওয়া—এটাই সবচেয়ে ভালো লেগেছে।", name: "সাদমান", place: "নারায়ণগঞ্জ" },
 ];
 
+const trustItems = [
+  { icon: IconLeaf, title: "বিশ্বস্ত উৎস", text: "নির্বাচিত দেশজ পণ্য" },
+  { icon: IconTruck, title: "হোম ডেলিভারি", text: "নির্বাচিত এলাকায়" },
+  { icon: IconShield, title: "মান যাচাই", text: "অর্ডারের আগে বাছাই" },
+  { icon: IconPhone, title: "কাস্টমার সাপোর্ট", text: "09678148148" },
+];
+
 export default function HomePage() {
   return (
     <>
       <Hero />
       <section className="border-b border-line bg-cream">
         <div className="page-wrap grid grid-cols-2 lg:grid-cols-4">
-          {[
-            ["🌾", "বিশ্বস্ত উৎস", "নির্বাচিত দেশজ পণ্য"],
-            ["🚚", "হোম ডেলিভারি", "নির্বাচিত এলাকায়"],
-            ["✓", "মান যাচাই", "অর্ডারের আগে বাছাই"],
-            ["☎", "কাস্টমার সাপোর্ট", "09678148148"],
-          ].map(([icon, title, text], index) => (
-            <div key={title} className={`flex items-center justify-center gap-3 border-line px-[18px] py-[22px] max-lg:border-r max-lg:odd:border-r-0 max-lg:even:border-r lg:border-r ${index < 2 ? "max-lg:border-b" : ""} last:border-r-0`}>
-              <div className="text-[22px]">{icon}</div>
+          {trustItems.map(({ icon: Icon, title, text }, index) => (
+            <div
+              key={title}
+              className={`flex items-center justify-center gap-3 border-line px-[18px] py-[22px] max-lg:border-r max-lg:odd:border-r-0 max-lg:even:border-r lg:border-r ${index < 2 ? "max-lg:border-b" : ""} last:border-r-0`}
+            >
+              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#e8efe5] text-green-dark">
+                <Icon className="h-5 w-5" />
+              </div>
               <div>
                 <strong className="block text-sm">{title}</strong>
                 <span className="text-xs text-muted">{text}</span>
@@ -85,11 +93,11 @@ export default function HomePage() {
           </div>
           <div className="-mr-3 flex snap-x gap-[18px] overflow-x-auto pb-2 sm:mr-0 sm:grid sm:grid-cols-2 sm:overflow-visible xl:grid-cols-3">
             {concerns.map((item, index) => (
-              <Link key={item.title} href={shopHref(item.cat)} className="grid min-h-[190px] min-w-[82vw] snap-start grid-cols-[120px_1fr] overflow-hidden rounded-[22px] border border-[#dfd5ba] bg-[#fffdf7] transition hover:-translate-y-1 hover:shadow-lift sm:min-w-0 sm:grid-cols-[132px_1fr]">
+              <Link key={item.title} href={shopHref(item.cat)} className="grid min-h-[150px] min-w-[82vw] snap-start grid-cols-[120px_1fr] overflow-hidden rounded-[22px] border border-[#dfd5ba] bg-[#fffdf7] transition hover:-translate-y-1 hover:shadow-lift sm:min-w-0 sm:grid-cols-[132px_1fr]">
                 <div className="overflow-hidden">
                   <img src={item.image} alt={item.alt} className="h-full w-full object-cover transition duration-300 hover:scale-[1.04]" />
                 </div>
-                <div className="flex flex-col items-start justify-center px-5 py-[18px]">
+                <div className="flex flex-col items-start justify-center px-5 py-3.5">
                   <span className="text-[11px] font-black tracking-[1px] text-orange">0{index + 1}</span>
                   <h3 className="my-1 font-serif text-[21px] leading-tight text-green-dark">{item.title}</h3>
                   <p className="mb-3 text-[13px] leading-snug text-muted">{item.text}</p>

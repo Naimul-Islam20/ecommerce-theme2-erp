@@ -189,13 +189,13 @@ export const categories = [
 ];
 
 export const shopCategories = [
-  { emoji: "🍚", label: "চাল" },
-  { emoji: "🫙", label: "ঘি" },
-  { emoji: "🌻", label: "তেল" },
-  { emoji: "🍯", label: "মধু" },
-  { emoji: "🥞", label: "পিঠা" },
-  { emoji: "🥚", label: "ডিম" },
-  { emoji: "🍗", label: "মাংস" },
+  { emoji: "🍚", label: "চাল", image: "/img/hero-rice.webp" },
+  { emoji: "🫙", label: "ঘি", image: "/img/ghee.webp" },
+  { emoji: "🌻", label: "তেল", image: "/img/mustard-oil-5l.webp" },
+  { emoji: "🍯", label: "মধু", image: "/img/honey.webp" },
+  { emoji: "🥞", label: "পিঠা", image: "/img/pitha.webp" },
+  { emoji: "🥚", label: "ডিম", image: "/img/chicken.webp" },
+  { emoji: "🍗", label: "মাংস", image: "/img/chicken.webp" },
 ];
 
 export function money(n: number) {
