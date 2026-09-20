@@ -25,19 +25,19 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <>
-      <PageHero crumbs="Home / Shop / Product" title="পণ্যের বিস্তারিত" />
-      <section className="py-14 sm:py-[78px]">
+      <PageHero crumbs="Home / Shop / Product" title="পণ্যের বিস্তারিত" compact />
+      <section className="py-8 sm:py-12">
         <div className="page-wrap">
           <ProductDetail product={product} />
         </div>
       </section>
-      <section className="bg-cream-2 py-14 sm:py-[78px]">
+      <section className="bg-cream-2 py-8 sm:py-12">
         <div className="page-wrap">
-          <div className="mb-[34px]">
+          <div className="mb-6">
             <div className="text-xs font-extrabold tracking-[2px] text-orange uppercase">You may also like</div>
             <h2 className="mt-1.5 font-serif text-[clamp(32px,4vw,50px)] leading-[1.1] text-green-dark">আরও দেশজ পণ্য</h2>
           </div>
-          <div className="grid grid-cols-2 gap-3 sm:gap-6 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4 xl:gap-6">
             {related.map((item) => (
               <ProductCard key={item.id} product={item} />
             ))}

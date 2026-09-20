@@ -28,15 +28,15 @@ export function ShopView() {
   }, [active, term, sort]);
 
   return (
-    <section className="py-12 sm:py-16">
+    <section className="py-8 sm:py-12">
       <div className="page-wrap grid gap-8 lg:grid-cols-[200px_1fr]">
-        <aside className="border border-line bg-white p-4 lg:sticky lg:top-[90px] lg:self-start">
+        <aside className="border border-line bg-white p-3 sm:p-4 lg:sticky lg:top-[90px] lg:self-start">
           <h3 className="mb-3 text-[12px] font-semibold tracking-[0.12em] text-muted uppercase">Categories</h3>
-          <div className="flex flex-wrap gap-1 lg:flex-col">
+          <div className="flex flex-wrap gap-1.5 lg:flex-col lg:gap-1">
             {categories.map((category) => (
               <button
                 key={category}
-                className={`px-2.5 py-2 text-left text-[13px] transition ${
+                className={`min-h-10 rounded-md px-3 py-2 text-left text-[13px] transition lg:min-h-0 lg:rounded-none ${
                   active === category ? "bg-green-dark font-semibold text-white" : "text-ink hover:bg-cream-2"
                 }`}
                 onClick={() => setActive(category)}
@@ -47,16 +47,20 @@ export function ShopView() {
           </div>
         </aside>
         <div>
-          <div className="mb-5 flex flex-col gap-3 border border-line bg-white p-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mb-5 flex flex-col gap-3 border border-line bg-white p-3 sm:flex-row sm:items-center sm:justify-between md:p-4">
             <p className="text-[13px] font-medium text-muted">{filtered.length} products</p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
               <input
                 value={term}
                 onChange={(e) => setTerm(e.target.value)}
                 placeholder="Search"
-                className="min-w-0 flex-1 border border-line px-3 py-2 text-[13px] outline-none focus:border-green sm:min-w-[180px]"
+                className="min-w-0 flex-1 border border-line px-3 py-2.5 text-[13px] outline-none focus:border-green sm:min-w-[180px] md:min-w-[220px]"
               />
-              <select value={sort} onChange={(e) => setSort(e.target.value)} className="border border-line px-3 py-2 text-[13px] outline-none">
+              <select
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+                className="min-w-[140px] border border-line px-3 py-2.5 text-[13px] outline-none"
+              >
                 <option value="featured">Featured</option>
                 <option value="low">Price: Low to High</option>
                 <option value="high">Price: High to Low</option>
@@ -67,7 +71,7 @@ export function ShopView() {
           {filtered.length === 0 ? (
             <div className="border border-dashed border-line py-16 text-center text-[14px] text-muted">No products found.</div>
           ) : (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
               {filtered.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

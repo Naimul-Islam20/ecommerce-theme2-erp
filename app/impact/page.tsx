@@ -32,18 +32,24 @@ export default function ImpactPage() {
     <div className="bg-paper">
       <section className="relative overflow-hidden bg-[linear-gradient(135deg,#073f31_0%,#0b5a43_55%,#386e54_100%)] text-white">
         <div className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_15%_20%,rgba(255,255,255,.22)_0_2px,transparent_3px),radial-gradient(circle_at_75%_75%,rgba(233,197,111,.3)_0_2px,transparent_3px)] bg-[length:46px_46px,70px_70px]" />
-        <div className="page-wrap relative z-[2] grid items-center gap-10 py-16 lg:min-h-[690px] lg:grid-cols-[1.12fr_0.88fr] lg:gap-[70px] lg:py-[85px]">
+        <div className="page-wrap relative z-[2] grid items-center gap-8 py-12 sm:gap-10 sm:py-16 lg:min-h-[690px] lg:grid-cols-[1.12fr_0.88fr] lg:gap-[70px] lg:py-[85px]">
           <div>
-            <div className="text-[13px] font-extrabold tracking-[2.2px] text-gold uppercase">Community-led climate adaptation • Tahirpur Haor, Bangladesh</div>
-            <h1 className="mt-2.5 mb-[22px] max-w-[780px] font-serif text-[43px] leading-[1.02] sm:text-[clamp(45px,5.8vw,76px)]">
+            <div className="text-[11px] font-extrabold tracking-[1.5px] text-gold uppercase sm:text-[13px] sm:tracking-[2.2px]">
+              Community-led climate adaptation • Tahirpur Haor, Bangladesh
+            </div>
+            <h1 className="mt-2.5 mb-5 max-w-[780px] font-serif text-[clamp(28px,7vw,43px)] leading-[1.08] sm:mb-[22px] sm:text-[clamp(40px,5.8vw,76px)] sm:leading-[1.02]">
               Regenerating haor livelihoods through Murta, craft and wetland resilience.
             </h1>
-            <p className="mb-7 max-w-[720px] text-base leading-relaxed text-[#e0ece7] sm:text-lg">
+            <p className="mb-6 max-w-[720px] text-[15px] leading-relaxed text-[#e0ece7] sm:mb-7 sm:text-lg">
               We work with communities in the Tahirpur haor region of Sunamganj to strengthen climate-resilient livelihoods by cultivating Murta, developing Shital Pati and other handicrafts, and building local skills around a plant deeply connected to the wetland landscape.
             </p>
-            <div className="flex flex-wrap gap-2.5">
-              <a href="#partnership" className="inline-flex min-h-[50px] items-center justify-center rounded-full bg-orange px-6 py-3.5 font-bold">Partner with this initiative →</a>
-              <a href="#model" className="inline-flex min-h-[50px] items-center justify-center rounded-full border border-white/70 px-6 py-3.5 font-bold hover:bg-white hover:text-green-dark">Explore the model</a>
+            <div className="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
+              <a href="#partnership" className="inline-flex min-h-[50px] items-center justify-center rounded-full bg-orange px-6 py-3.5 font-bold">
+                Partner with this initiative →
+              </a>
+              <a href="#model" className="inline-flex min-h-[50px] items-center justify-center rounded-full border border-white/70 px-6 py-3.5 font-bold hover:bg-white hover:text-green-dark">
+                Explore the model
+              </a>
             </div>
             <div className="mt-[34px] flex max-w-[480px] items-center gap-[13px] border-t border-white/20 pt-6">
               <span className="grid h-[50px] w-[50px] place-items-center rounded-full bg-[#f3d88b] font-black tracking-wide text-[#173d31]">ARA</span>
@@ -76,7 +82,7 @@ export default function ImpactPage() {
         </div>
       </section>
 
-      <section className="py-14 sm:py-[78px]">
+      <section className="py-8 sm:py-12">
         <div className="page-wrap grid items-start gap-5 lg:grid-cols-[0.82fr_1.18fr] lg:gap-[90px]">
           <div>
             <div className="text-xs font-extrabold tracking-[2px] text-orange uppercase">The challenge</div>
@@ -89,14 +95,14 @@ export default function ImpactPage() {
         </div>
       </section>
 
-      <section id="model" className="bg-[#edf1e7] py-14 sm:py-[78px]">
+      <section id="model" className="bg-[#edf1e7] py-8 sm:py-12">
         <div className="page-wrap">
-          <div className="mb-[34px]">
+          <div className="mb-6">
             <div className="text-xs font-extrabold tracking-[2px] text-orange uppercase">Our adaptation model</div>
             <h2 className="mt-2 font-serif text-[clamp(32px,4vw,50px)] leading-[1.1] text-green-dark">From wetland plant to resilient local economy</h2>
             <p className="mt-3 max-w-[560px] text-muted">The programme combines ecosystem stewardship with practical livelihood development, so environmental resilience and household opportunity reinforce each other.</p>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {model.map(([n, icon, title, text]) => (
               <article key={n} className="relative min-h-[260px] rounded-3xl border border-[#d9dfd1] bg-[#fffdf8] p-[26px] sm:min-h-[315px]">
                 <span className="absolute top-[19px] right-5 text-[11px] font-black text-[#a3ada5]">{n}</span>
@@ -109,7 +115,7 @@ export default function ImpactPage() {
         </div>
       </section>
 
-      <section className="bg-[#0a3e31] py-14 text-white sm:py-[78px]">
+      <section className="bg-[#0a3e31] py-8 text-white sm:py-12">
         <div className="page-wrap grid items-center gap-10 lg:grid-cols-[1fr_0.9fr] lg:gap-[65px]">
           <div>
             <div className="text-xs font-extrabold tracking-[2px] text-gold uppercase">Why Murta matters</div>
@@ -140,7 +146,7 @@ export default function ImpactPage() {
         </div>
       </section>
 
-      <section className="bg-white py-14 sm:py-[78px]">
+      <section className="bg-white py-8 sm:py-12">
         <div className="page-wrap">
           <div className="mb-[42px] grid items-start gap-5 lg:grid-cols-[0.82fr_1.18fr] lg:gap-[90px]">
             <div>
@@ -149,7 +155,7 @@ export default function ImpactPage() {
             </div>
             <p className="text-[17px] leading-loose text-[#4e5c54]">We do not see communities only as beneficiaries. They are producers, knowledge holders, makers and adaptation partners. Training is designed to strengthen practical production capability—from selecting and preparing Murta to weaving, finishing, quality improvement and developing new handicraft formats that can reach broader markets.</p>
           </div>
-          <div className="grid gap-px overflow-hidden rounded-3xl border border-[#dde3da] bg-[#dde3da] sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-px overflow-hidden rounded-3xl border border-[#dde3da] bg-[#dde3da] sm:grid-cols-2 lg:grid-cols-4">
             {outcomes.map(([n, title, text]) => (
               <div key={n} className="min-h-[250px] bg-[#f8f7ef] p-7">
                 <strong className="text-[11px] tracking-[1px] text-orange">{n}</strong>
@@ -161,7 +167,7 @@ export default function ImpactPage() {
         </div>
       </section>
 
-      <section id="partnership" className="bg-[#f0e6ce] py-14 sm:py-[78px]">
+      <section id="partnership" className="bg-[#f0e6ce] py-8 sm:py-12">
         <div className="page-wrap grid gap-8 rounded-[30px] border border-[#ded3b9] bg-[#fffdf8] p-[27px] sm:p-12 lg:grid-cols-[0.88fr_1.12fr] lg:gap-[62px]">
           <div>
             <div className="text-xs font-extrabold tracking-[2px] text-orange uppercase">Partnership & investment opportunity</div>
@@ -182,7 +188,7 @@ export default function ImpactPage() {
         </div>
       </section>
 
-      <section className="bg-white py-14 sm:py-[78px]">
+      <section className="bg-white py-8 sm:py-12">
         <div className="page-wrap grid max-w-[950px] items-center gap-8 lg:grid-cols-[220px_1fr] lg:gap-[55px]">
           <div className="grid aspect-square w-[120px] place-items-center rounded-full bg-green-dark font-serif text-[40px] font-extrabold text-[#f0cf7a] shadow-[0_0_0_14px_#e9eee6,0_0_0_15px_#d6ddd2] sm:w-[190px] sm:text-[58px]">ARA</div>
           <div>
@@ -194,13 +200,13 @@ export default function ImpactPage() {
         </div>
       </section>
 
-      <section className="bg-[#f5f1e5] py-14 sm:py-[78px]">
+      <section className="bg-[#f5f1e5] py-8 sm:py-12">
         <div className="page-wrap">
-          <div className="mb-[34px]">
+          <div className="mb-6">
             <div className="text-xs font-extrabold tracking-[2px] text-orange uppercase">Evidence-informed approach</div>
             <h2 className="mt-2 font-serif text-[clamp(32px,4vw,50px)] leading-[1.1] text-green-dark">Grounded in local knowledge, strengthened by research</h2>
           </div>
-          <div className="grid gap-[17px] sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-[17px] sm:grid-cols-2 lg:grid-cols-3">
             <Evidence href="https://en.banglapedia.org/index.php/Murta" kicker="Reference" title="Murta in Bangladesh" text="Banglapedia documents Murta as the traditional raw material for Shital Pati and describes its wetland distribution and uses." label="Open source →" />
             <Evidence href="https://doi.org/10.1016/j.envc.2022.100631" kicker="Peer-reviewed research" title="Phytoremediation potential" text="A 2022 study investigated Schumannianthus dichotomus for contaminant removal in a constructed wetland system." label="View research →" />
             <Evidence href="https://adaptationresearchalliance.org/knowledge-base/adaptation-research-alliance-ara/adaptation-research-for-impact-principles/" kicker="Adaptation practice" title="Research for impact" text="ARA’s principles emphasise demand-driven, action-oriented research that strengthens climate adaptation and resilience." label="View principles →" />
@@ -211,7 +217,7 @@ export default function ImpactPage() {
         </div>
       </section>
 
-      <section className="bg-[linear-gradient(135deg,#ed7148,#cf5c37)] py-16 text-white sm:py-[85px]">
+      <section className="bg-[linear-gradient(135deg,#ed7148,#cf5c37)] py-10 text-white sm:py-14">
         <div className="page-wrap max-w-[850px] text-center">
           <span className="text-[11px] font-black tracking-[2px] text-[#ffe2c9]">DESHOJO • TAHIRPUR HAOR</span>
           <h2 className="mt-2.5 mb-[15px] font-serif text-[38px] leading-[1.08] text-white sm:text-[clamp(36px,5vw,58px)]">Local material. Local knowledge. Long-term resilience.</h2>

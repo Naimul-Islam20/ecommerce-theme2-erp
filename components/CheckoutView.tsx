@@ -22,10 +22,10 @@ export function CheckoutView() {
   }
 
   return (
-    <section className="py-14 sm:py-[78px]">
-      <div className="page-wrap grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-        <form className="rounded-[20px] border border-[#e6dfd2] bg-white p-[26px]" onSubmit={placeOrder}>
-          <h2 className="mt-0 text-[28px]">Delivery information</h2>
+    <section className="py-8 sm:py-12">
+      <div className="page-wrap grid gap-5 sm:gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+        <form className="rounded-[20px] border border-[#e6dfd2] bg-white p-4 sm:p-[26px]" onSubmit={placeOrder}>
+          <h2 className="mt-0 text-2xl sm:text-[28px]">Delivery information</h2>
           <div className="grid gap-3.5 sm:grid-cols-2">
             <Field label="নাম">
               <input required placeholder="আপনার নাম" />
@@ -54,23 +54,26 @@ export function CheckoutView() {
             Place Demo Order
           </button>
         </form>
-        <aside className="rounded-[20px] border border-[#e6dfd2] bg-white p-[26px]">
-          <h2 className="mt-0 text-[28px]">Your order</h2>
+        <aside className="rounded-[20px] border border-[#e6dfd2] bg-white p-4 sm:p-[26px] lg:sticky lg:top-[90px] lg:self-start">
+          <h2 className="mt-0 text-2xl sm:text-[28px]">Your order</h2>
           {lines.length === 0 ? (
             <div className="px-5 py-14 text-center text-muted">
-              কার্ট খালি। <Link href="/shop" className="font-bold text-green">Shop করুন</Link>
+              কার্ট খালি।{" "}
+              <Link href="/shop" className="font-bold text-green">
+                Shop করুন
+              </Link>
             </div>
           ) : (
             <>
               {lines.map(({ product, qty }) => (
                 <div key={product.id} className="flex justify-between gap-2.5 border-b border-[#eee] py-[9px]">
-                  <span>
+                  <span className="min-w-0 flex-1 break-words">
                     {product.name} × {qty}
                   </span>
-                  <strong>{money(product.price * qty)}</strong>
+                  <strong className="shrink-0">{money(product.price * qty)}</strong>
                 </div>
               ))}
-              <div className="flex justify-between pt-[15px] text-xl font-black">
+              <div className="flex justify-between pt-[15px] text-lg font-black sm:text-xl">
                 <span>Total</span>
                 <span>{money(total)}</span>
               </div>

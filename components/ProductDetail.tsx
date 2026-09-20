@@ -9,30 +9,44 @@ export function ProductDetail({ product }: { product: Product }) {
   const [qty, setQty] = useState(1);
 
   return (
-    <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-[54px]">
-      <div className="overflow-hidden rounded-3xl border border-[#e7e0d4] bg-[#faf7ef]">
+    <div className="grid items-start gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-[54px]">
+      <div className="overflow-hidden rounded-2xl border border-[#e7e0d4] bg-[#faf7ef] sm:rounded-3xl">
         <img src={product.image} alt={product.name} className="aspect-square w-full object-cover" />
       </div>
       <div>
         <span className="inline-block rounded-full bg-[#eaf2eb] px-2.5 py-1.5 text-xs font-extrabold text-green">{product.badge}</span>
-        <h1 className="mt-2 mb-3 font-serif text-4xl leading-[1.12] text-green-dark sm:text-[44px]">{product.name}</h1>
+        <h1 className="mt-2 mb-3 font-serif text-[clamp(26px,6vw,36px)] leading-[1.15] text-green-dark sm:text-[44px] sm:leading-[1.12]">
+          {product.name}
+        </h1>
         <div className="text-xs text-[#a86e00]">
           ★★★★★ <span className="ml-[5px] text-[#8a918c]">{product.rating} • {product.reviews} reviews</span>
         </div>
-        <div className="my-3 text-[28px] font-black text-green">
+        <div className="my-3 text-[24px] font-black text-green sm:text-[28px]">
           {money(product.price)} <small className="text-[13px] font-medium text-[#6e7b73]">/ {product.unit}</small>
         </div>
-        <p className="text-muted">{product.description}</p>
-        <div className="my-6 flex gap-3">
-          <input
-            type="number"
-            min={1}
-            value={qty}
-            onChange={(event) => setQty(Math.max(1, Number(event.target.value) || 1))}
-            className="w-20 rounded-xl border border-[#ddd] px-3 py-3 text-center"
-          />
+        <p className="text-sm text-muted sm:text-base">{product.description}</p>
+        <div className="my-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="flex h-[50px] w-full items-center overflow-hidden rounded-full border border-[#ddd] bg-white sm:w-auto sm:min-w-[140px]">
+            <button
+              type="button"
+              aria-label="Decrease quantity"
+              className="grid h-full w-12 place-items-center border-r border-[#ddd] text-lg font-extrabold text-green-dark transition hover:bg-[#f3ead0]"
+              onClick={() => setQty((current) => Math.max(1, current - 1))}
+            >
+              −
+            </button>
+            <span className="min-w-10 flex-1 text-center text-sm font-extrabold tabular-nums">{qty}</span>
+            <button
+              type="button"
+              aria-label="Increase quantity"
+              className="grid h-full w-12 place-items-center border-l border-[#ddd] text-lg font-extrabold text-green-dark transition hover:bg-[#f3ead0]"
+              onClick={() => setQty((current) => current + 1)}
+            >
+              +
+            </button>
+          </div>
           <button
-            className="inline-flex min-h-[50px] flex-1 items-center justify-center rounded-full bg-orange px-6 py-3.5 font-bold text-white transition hover:-translate-y-0.5 hover:shadow-[0_12px_24px_rgba(239,111,69,.25)]"
+            className="inline-flex min-h-[50px] w-full flex-1 items-center justify-center rounded-full bg-orange px-6 py-3.5 font-bold text-white transition hover:-translate-y-0.5 hover:shadow-[0_12px_24px_rgba(239,111,69,.25)]"
             onClick={() => add(product.id, qty)}
           >
             Add to Cart
@@ -51,9 +65,9 @@ export function ProductDetail({ product }: { product: Product }) {
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex justify-between gap-5 border-b border-[#e9e2d5] py-[13px] text-sm">
-      <span className="text-muted">{label}</span>
-      <strong>{value}</strong>
+    <div className="flex justify-between gap-3 border-b border-[#e9e2d5] py-[13px] text-sm sm:gap-5">
+      <span className="shrink-0 text-muted">{label}</span>
+      <strong className="min-w-0 text-right break-words">{value}</strong>
     </div>
   );
 }

@@ -37,7 +37,7 @@ export function Overlays() {
       <SearchOverlay />
       <MobileMenu />
       <div
-        className={`fixed bottom-7 left-1/2 z-[110] -translate-x-1/2 rounded-full bg-[#173b2f] px-[18px] py-3 text-white shadow-lift transition ${store.toastMessage ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-5 opacity-0"}`}
+        className={`fixed right-4 bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-4 z-[110] -translate-x-0 rounded-full bg-[#173b2f] px-4 py-3 text-center text-sm text-white shadow-lift transition sm:right-auto sm:left-1/2 sm:w-auto sm:max-w-none sm:-translate-x-1/2 sm:px-[18px] ${store.toastMessage ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-5 opacity-0"}`}
       >
         {store.toastMessage}
       </div>
@@ -52,7 +52,7 @@ function CartDrawer() {
     <aside className={`fixed top-0 right-0 z-[90] flex h-screen w-[min(440px,94vw)] flex-col bg-white shadow-[-20px_0_50px_rgba(0,0,0,.15)] transition-transform ${cartOpen ? "translate-x-0" : "translate-x-[102%]"}`}>
       <div className="flex items-center justify-between border-b border-[#eee] px-[22px] py-[22px]">
         <h3 className="m-0">আপনার কার্ট</h3>
-        <button className="grid h-[38px] w-[38px] place-items-center rounded-full border border-[#ddd] bg-white text-xl" onClick={() => setCartOpen(false)}>
+        <button className="grid h-11 w-11 place-items-center rounded-full border border-[#ddd] bg-white text-xl" onClick={() => setCartOpen(false)}>
           ×
         </button>
       </div>
@@ -71,17 +71,17 @@ function CartDrawer() {
             const product = getProduct(line.id);
             if (!product) return null;
             return (
-              <div key={line.id} className="grid grid-cols-[78px_1fr_auto] gap-3 border-b border-[#eee] py-3.5">
-                <img src={product.image} alt={product.name} className="h-[78px] w-[78px] rounded-xl object-cover" />
-                <div>
-                  <strong>{product.name}</strong>
-                  <div>{money(product.price)}</div>
+              <div key={line.id} className="grid grid-cols-[64px_1fr_auto] gap-2.5 border-b border-[#eee] py-3.5 sm:grid-cols-[78px_1fr_auto] sm:gap-3">
+                <img src={product.image} alt={product.name} className="h-16 w-16 rounded-xl object-cover sm:h-[78px] sm:w-[78px]" />
+                <div className="min-w-0">
+                  <strong className="line-clamp-2 text-sm sm:text-base">{product.name}</strong>
+                  <div className="text-sm">{money(product.price)}</div>
                   <div className="mt-[7px] flex items-center gap-2">
-                    <button className="grid h-[26px] w-[26px] place-items-center rounded-full border border-[#ddd] bg-white" onClick={() => changeQty(product.id, -1)}>
+                    <button className="grid h-9 w-9 place-items-center rounded-full border border-[#ddd] bg-white" onClick={() => changeQty(product.id, -1)}>
                       −
                     </button>
-                    <span>{line.qty}</span>
-                    <button className="grid h-[26px] w-[26px] place-items-center rounded-full border border-[#ddd] bg-white" onClick={() => changeQty(product.id, 1)}>
+                    <span className="min-w-5 text-center">{line.qty}</span>
+                    <button className="grid h-9 w-9 place-items-center rounded-full border border-[#ddd] bg-white" onClick={() => changeQty(product.id, 1)}>
                       +
                     </button>
                   </div>
@@ -123,16 +123,16 @@ function SearchOverlay() {
   if (!searchOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] bg-paper/98 p-[34px] max-sm:p-[18px]">
+    <div className="fixed inset-0 z-[100] overflow-auto bg-paper/98 p-4 sm:p-6 md:p-[34px]">
       <div className="mx-auto flex max-w-[900px] items-center gap-3">
         <input
           autoFocus
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="পণ্য খুঁজুন..."
-          className="flex-1 border-0 border-b-2 border-green bg-transparent px-1 py-3.5 text-[28px] outline-none max-sm:text-[21px]"
+          className="min-w-0 flex-1 border-0 border-b-2 border-green bg-transparent px-1 py-3 text-[21px] outline-none sm:text-[24px] md:py-3.5 md:text-[28px]"
         />
-        <button className="grid h-[38px] w-[38px] place-items-center rounded-full border border-[#ddd] bg-white text-xl" onClick={() => setSearchOpen(false)}>
+        <button className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[#ddd] bg-white text-xl" onClick={() => setSearchOpen(false)}>
           ×
         </button>
       </div>
@@ -165,7 +165,7 @@ function MobileMenu() {
     <aside className="fixed top-0 left-0 z-[95] h-screen w-[min(340px,88vw)] overflow-auto bg-white p-[22px] shadow-[20px_0_50px_rgba(0,0,0,.15)]">
       <div className="flex items-center justify-between">
         <img src="/img/logo.png" alt="Deshojo Bazar" className="w-[90px]" />
-        <button className="grid h-[38px] w-[38px] place-items-center rounded-full border border-[#ddd] bg-white text-xl" aria-label="Close menu" onClick={() => setMobileOpen(false)}>
+        <button className="grid h-11 w-11 place-items-center rounded-full border border-[#ddd] bg-white text-xl" aria-label="Close menu" onClick={() => setMobileOpen(false)}>
           ×
         </button>
       </div>

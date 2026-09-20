@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Checkout" };
 export default function CheckoutPage() {
   return (
     <>
-      <PageHero crumbs="Home / Checkout" title="Checkout" />
+      <PageHero crumbs="Home / Checkout" title="Checkout" compact />
       <CheckoutView />
     </>
   );

@@ -16,21 +16,21 @@ export function Footer() {
 
   return (
     <>
-      <section className="bg-orange py-12 text-white">
-        <div className="page-wrap grid items-center gap-10 md:grid-cols-2">
+      <section className="bg-orange py-10 text-white sm:py-12">
+        <div className="page-wrap grid items-center gap-6 md:grid-cols-2 md:gap-10">
           <div>
-            <h3 className="mb-2 font-serif text-[34px]">দেশজ স্বাদের খবর আগে জানুন</h3>
-            <p className="text-[#fff1e9]">নতুন পণ্য, মৌসুমি সংগ্রহ ও বিশেষ অফারের আপডেট পান।</p>
+            <h3 className="mb-2 font-serif text-[clamp(24px,5vw,34px)]">দেশজ স্বাদের খবর আগে জানুন</h3>
+            <p className="text-sm text-[#fff1e9] sm:text-base">নতুন পণ্য, মৌসুমি সংগ্রহ ও বিশেষ অফারের আপডেট পান।</p>
           </div>
-          <form className="flex rounded-full bg-white p-[5px] max-sm:flex-col max-sm:bg-transparent" onSubmit={subscribe}>
-            <input required type="email" placeholder="আপনার ইমেইল" className="min-w-0 flex-1 rounded-full px-[18px] py-3 text-ink outline-none max-sm:mb-2 max-sm:w-full max-sm:border max-sm:border-white/40 max-sm:bg-white" />
+          <form className="flex rounded-full bg-white p-[5px] max-sm:flex-col max-sm:gap-2 max-sm:bg-transparent" onSubmit={subscribe}>
+            <input required type="email" placeholder="আপনার ইমেইল" className="min-w-0 flex-1 rounded-full px-[18px] py-3 text-ink outline-none max-sm:w-full max-sm:border max-sm:border-white/40 max-sm:bg-white" />
             <button className="rounded-full bg-green-dark px-[22px] py-3 font-extrabold text-white max-sm:w-full">Subscribe</button>
           </form>
         </div>
       </section>
-      <footer className="bg-[#0b3026] px-0 pt-[54px] pb-5 text-[#ddebe4]">
+      <footer className="bg-[#0b3026] px-0 pt-10 pb-5 text-[#ddebe4] sm:pt-[54px]">
         <div className="page-wrap">
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+          <div className="grid gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4 xl:grid-cols-[1.4fr_1fr_1fr_1fr]">
             <div>
               <img src="/img/logo.png" alt="Deshojo Bazar" className="mb-3.5 w-[100px] rounded-2xl bg-white p-2" />
               <p className="max-w-[350px] text-[#aec1b7]">

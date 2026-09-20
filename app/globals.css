@@ -18,6 +18,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
@@ -25,6 +26,7 @@ body {
   line-height: 1.55;
   color: var(--color-ink);
   background: var(--color-paper);
+  overflow-x: clip;
 }
 
 ::selection {
@@ -49,13 +51,13 @@ img {
 }
 
 .page-wrap {
-  width: min(1180px, calc(100% - 36px));
+  width: min(1180px, calc(100% - 24px));
   margin-inline: auto;
 }
 
-@media (max-width: 640px) {
+@media (min-width: 640px) {
   .page-wrap {
-    width: min(100% - 24px, 1180px);
+    width: min(1180px, calc(100% - 36px));
   }
 }
 
@@ -115,4 +117,64 @@ img {
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--color-orange);
+}
+
+@keyframes qty-stepper-in {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes qty-side-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes qty-side-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes qty-count-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.qty-stepper {
+  animation: qty-stepper-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.qty-stepper__minus {
+  animation: qty-side-in-left 0.32s cubic-bezier(0.22, 1, 0.36, 1) 0.06s both;
+}
+
+.qty-stepper__count {
+  animation: qty-count-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+.qty-stepper__plus {
+  animation: qty-side-in-right 0.32s cubic-bezier(0.22, 1, 0.36, 1) 0.06s both;
 }

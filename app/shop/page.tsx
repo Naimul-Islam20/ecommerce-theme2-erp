@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: "Shop" };
 export default function ShopPage() {
   return (
     <>
-      <PageHero crumbs="Home / Shop" title="সব দেশজ পণ্য" />
+      <PageHero crumbs="Home / Shop" title="সব দেশজ পণ্য" compact />
       <Suspense fallback={<div className="page-wrap py-20 text-muted">পণ্য লোড হচ্ছে...</div>}>
         <ShopView />
       </Suspense>

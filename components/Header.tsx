@@ -15,7 +15,7 @@ const farmLinks = [
 ];
 
 const iconBtn =
-  "relative grid h-10 w-10 place-items-center rounded-full border border-[#ddd6c6] bg-white text-green-dark hover:border-orange/50 hover:bg-cream hover:text-orange max-sm:h-9 max-sm:w-9";
+  "relative grid h-10 w-10 place-items-center rounded-full border border-[#ddd6c6] bg-white text-green-dark hover:border-orange/50 hover:bg-cream hover:text-orange";
 
 export function Header() {
   const pathname = usePathname();
@@ -29,17 +29,19 @@ export function Header() {
 
   return (
     <>
-      <div className="bg-green-dark px-4 py-2 text-center text-[12px] text-white/95 sm:text-[13px]">
-        ঢাকা ও নির্বাচিত এলাকায় হোম ডেলিভারি
-        <span className="mx-1.5 text-white/35">•</span>
-        অর্ডার সহায়তা:{" "}
-        <a href="tel:09678148148" className="font-semibold text-[#f5d59c] hover:text-white">
-          09678148148
-        </a>
+      <div className="bg-green-dark px-3 py-2 text-center text-[11px] leading-snug text-white/95 sm:px-4 sm:text-[13px]">
+        <span className="block sm:inline">ঢাকা ও নির্বাচিত এলাকায় হোম ডেলিভারি</span>
+        <span className="mx-1.5 hidden text-white/35 sm:inline">•</span>
+        <span className="block sm:inline">
+          অর্ডার সহায়তা:{" "}
+          <a href="tel:09678148148" className="font-semibold text-[#f5d59c] hover:text-white">
+            09678148148
+          </a>
+        </span>
       </div>
 
       <header className="sticky top-0 z-50 border-b border-[#e6e0d2] bg-[#fffdf8]/95 backdrop-blur-md">
-        <div className="page-wrap flex h-[76px] items-center justify-between gap-4 max-sm:h-[66px]">
+        <div className="page-wrap flex h-[70px] items-center gap-2 sm:h-[76px] sm:gap-3">
           <button
             type="button"
             className={`${iconBtn} shrink-0 lg:hidden`}
@@ -49,21 +51,25 @@ export function Header() {
             <IconMenu />
           </button>
 
-          <Link href="/" className="shrink-0 max-lg:absolute max-lg:left-1/2 max-lg:-translate-x-1/2">
-            <img src="/img/logo.png" alt="Deshojo Bazar" className="h-[52px] w-auto object-contain max-sm:h-[44px]" />
+          <Link href="/" className="mx-auto shrink-0 lg:mx-0">
+            <img src="/img/logo.png" alt="Deshojo Bazar" className="h-10 w-auto object-contain sm:h-[48px]" />
           </Link>
 
           <nav
-            className="hidden min-w-0 flex-1 items-center justify-center gap-1 text-[13px] font-semibold text-green-dark xl:gap-2 xl:text-[14px] lg:flex"
+            className="hidden min-w-0 flex-1 flex-wrap items-center justify-center gap-0.5 text-[12px] font-semibold text-green-dark lg:flex xl:gap-1 xl:text-[13.5px]"
             aria-label="Primary navigation"
           >
             <NavLink href="/shop">Shop</NavLink>
-            <NavLink href="/#concerns">Concerns</NavLink>
-            <NavLink href="/#videos">Videos</NavLink>
+            <NavLink href="/#concerns" className="hidden xl:inline-flex">
+              Concerns
+            </NavLink>
+            <NavLink href="/#videos" className="hidden xl:inline-flex">
+              Videos
+            </NavLink>
             <div className="relative flex items-stretch" onMouseLeave={() => setFarmOpen(false)}>
               <button
                 type="button"
-                className="flex items-center gap-[7px] rounded-full px-3 py-2 hover:bg-[#eef2e6] hover:text-orange"
+                className="flex items-center gap-1.5 rounded-full px-2 py-2 hover:bg-[#eef2e6] hover:text-orange xl:gap-[7px] xl:px-3"
                 aria-expanded={farmOpen}
                 onClick={() => setFarmOpen((open) => !open)}
                 onMouseEnter={() => setFarmOpen(true)}
@@ -94,7 +100,7 @@ export function Header() {
             <NavLink href="/#story">আমাদের গল্প</NavLink>
           </nav>
 
-          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-1.5 sm:gap-2 lg:ml-0">
             <button type="button" className={iconBtn} aria-label="Search" onClick={() => setSearchOpen(true)}>
               <IconSearch />
             </button>
@@ -119,9 +125,9 @@ export function Header() {
   );
 }
 
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+function NavLink({ href, children, className = "" }: { href: string; children: React.ReactNode; className?: string }) {
   return (
-    <Link href={href} className="rounded-full px-3 py-2 hover:bg-[#eef2e6] hover:text-orange">
+    <Link href={href} className={`inline-flex rounded-full px-2 py-2 hover:bg-[#eef2e6] hover:text-orange xl:px-2.5 ${className}`}>
       {children}
     </Link>
   );
