@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { getProduct, products } from "@/lib/products";
+import { useCatalog } from "@/lib/catalog";
 
 export type CartLine = { id: string; qty: number };
 
@@ -28,6 +28,7 @@ const StoreContext = createContext<Store | null>(null);
 const STORAGE_KEY = "deshojo_cart";
 
 export function StoreProvider({ children }: { children: React.ReactNode }) {
+  const { products, getProduct } = useCatalog();
   const [items, setItems] = useState<CartLine[]>([]);
   const [ready, setReady] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
@@ -68,7 +69,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       count,
       subtotal,
       add(id, qty = 1) {
-        if (!products.some((product) => product.id === id)) return;
+        if (!products.some((product) => product.id === id || product.slug === id)) return;
         setItems((current) => {
           const existing = current.find((line) => line.id === id);
           if (existing) {
@@ -104,7 +105,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       toast: setToastMessage,
       toastMessage,
     };
-  }, [items, cartOpen, searchOpen, mobileOpen, toastMessage]);
+  }, [items, cartOpen, searchOpen, mobileOpen, toastMessage, products, getProduct]);
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }

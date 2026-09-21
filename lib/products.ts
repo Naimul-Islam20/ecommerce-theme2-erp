@@ -1,5 +1,6 @@
 export type Product = {
   id: string;
+  slug?: string;
   name: string;
   en: string;
   price: number;
@@ -203,11 +204,12 @@ export function money(n: number) {
 }
 
 export function getProduct(id: string) {
-  return products.find((product) => product.id === id);
+  return products.find((product) => product.id === id || product.slug === id);
 }
 
-export function productHref(id: string) {
-  return `/product/${id}`;
+export function productHref(productOrId: Product | string) {
+  if (typeof productOrId === "string") return `/product/${productOrId}`;
+  return `/product/${productOrId.slug || productOrId.id}`;
 }
 
 export function shopHref(category?: string) {

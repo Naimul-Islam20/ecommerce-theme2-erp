@@ -3,7 +3,10 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useStore } from "@/lib/cart";
-import { getProduct, money, productHref, products } from "@/lib/products";
+import { useCustomerAuth } from "@/lib/api/auth";
+import { useCatalog } from "@/lib/catalog";
+import { ProductImage } from "@/components/ProductImage";
+import { money, productHref } from "@/lib/products";
 
 const farmLinks = [
   { href: "/farming/haor", label: "Haor Farm" },
@@ -47,6 +50,7 @@ export function Overlays() {
 
 function CartDrawer() {
   const { cartOpen, setCartOpen, items, changeQty, remove, subtotal } = useStore();
+  const { getProduct } = useCatalog();
 
   return (
     <aside className={`fixed top-0 right-0 z-[90] flex h-screen w-[min(440px,94vw)] flex-col bg-white shadow-[-20px_0_50px_rgba(0,0,0,.15)] transition-transform ${cartOpen ? "translate-x-0" : "translate-x-[102%]"}`}>
@@ -72,7 +76,13 @@ function CartDrawer() {
             if (!product) return null;
             return (
               <div key={line.id} className="grid grid-cols-[64px_1fr_auto] gap-2.5 border-b border-[#eee] py-3.5 sm:grid-cols-[78px_1fr_auto] sm:gap-3">
-                <img src={product.image} alt={product.name} className="h-16 w-16 rounded-xl object-cover sm:h-[78px] sm:w-[78px]" />
+                <ProductImage
+                  src={product.image}
+                  alt={product.name}
+                  size="thumb"
+                  wrapClassName="h-16 w-16 overflow-hidden rounded-xl sm:h-[78px] sm:w-[78px]"
+                  className="h-full w-full object-cover"
+                />
                 <div className="min-w-0">
                   <strong className="line-clamp-2 text-sm sm:text-base">{product.name}</strong>
                   <div className="text-sm">{money(product.price)}</div>
@@ -109,6 +119,7 @@ function CartDrawer() {
 
 function SearchOverlay() {
   const { searchOpen, setSearchOpen } = useStore();
+  const { products } = useCatalog();
   const [query, setQuery] = useState("");
 
   useEffect(() => {
@@ -141,8 +152,14 @@ function SearchOverlay() {
           <div className="col-span-full px-5 py-14 text-center text-muted">কোনো পণ্য পাওয়া যায়নি।</div>
         ) : (
           list.map((product) => (
-            <Link key={product.id} href={productHref(product.id)} onClick={() => setSearchOpen(false)} className="flex gap-3 rounded-[14px] border border-[#e7e1d3] bg-white p-2.5">
-              <img src={product.image} alt={product.name} className="h-[72px] w-[72px] rounded-[10px] object-cover" />
+            <Link key={product.id} href={productHref(product)} onClick={() => setSearchOpen(false)} className="flex gap-3 rounded-[14px] border border-[#e7e1d3] bg-white p-2.5">
+              <ProductImage
+                src={product.image}
+                alt={product.name}
+                size="thumb"
+                wrapClassName="h-[72px] w-[72px] shrink-0 overflow-hidden rounded-[10px]"
+                className="h-full w-full object-cover"
+              />
               <div>
                 <strong className="block">{product.name}</strong>
                 <span className="text-[13px] text-muted">
@@ -159,6 +176,7 @@ function SearchOverlay() {
 
 function MobileMenu() {
   const { mobileOpen, setMobileOpen } = useStore();
+  const { isLoggedIn, logout } = useCustomerAuth();
   if (!mobileOpen) return null;
 
   return (
@@ -191,6 +209,24 @@ function MobileMenu() {
         <Link href="/#beyond">Beyond Our Products</Link>
         <Link href="/impact">Climate & Community Impact</Link>
         <Link href="/#story">আমাদের গল্প</Link>
+        {isLoggedIn ? (
+          <>
+            <Link href="/dashboard" onClick={() => setMobileOpen(false)}>
+              Dashboard
+            </Link>
+            <Link href="/dashboard/orders" onClick={() => setMobileOpen(false)}>
+              Orders
+            </Link>
+            <button type="button" className="border-b border-[#eee] py-[13px] text-left font-extrabold" onClick={() => logout()}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link href="/auth/login?redirect=/dashboard">Login</Link>
+            <Link href="/auth/signup">Sign up</Link>
+          </>
+        )}
       </nav>
     </aside>
   );

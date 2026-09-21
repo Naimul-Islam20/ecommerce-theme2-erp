@@ -3,25 +3,26 @@ import { notFound } from "next/navigation";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductDetail } from "@/components/ProductDetail";
 import { PageHero } from "@/components/PageHero";
-import { getProduct, products } from "@/lib/products";
+import { getCatalog, getProductByIdOrSlug } from "@/lib/api/catalog";
 
 type Props = { params: Promise<{ id: string }> };
 
-export function generateStaticParams() {
-  return products.map((product) => ({ id: product.id }));
+export async function generateStaticParams() {
+  const { products } = await getCatalog();
+  return products.slice(0, 40).map((product) => ({ id: product.slug || product.id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const product = getProduct(id);
+  const product = await getProductByIdOrSlug(id);
   return { title: product?.name ?? "Product", description: product?.description };
 }
 
 export default async function ProductPage({ params }: Props) {
   const { id } = await params;
-  const product = getProduct(id);
+  const [product, catalog] = await Promise.all([getProductByIdOrSlug(id), getCatalog()]);
   if (!product) notFound();
-  const related = products.filter((item) => item.id !== product.id).slice(0, 4);
+  const related = catalog.products.filter((item) => item.id !== product.id).slice(0, 4);
 
   return (
     <>

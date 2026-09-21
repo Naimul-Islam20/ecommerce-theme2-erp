@@ -2,11 +2,14 @@
 
 import Link from "next/link";
 import { FormEvent } from "react";
+import { NoApiNote } from "@/components/NoApiNote";
 import { useStore } from "@/lib/cart";
+import { useSite } from "@/lib/site";
 import { shopHref } from "@/lib/products";
 
 export function Footer() {
   const { toast } = useStore();
+  const { settings, footerColumns, storeName } = useSite();
 
   function subscribe(event: FormEvent) {
     event.preventDefault();
@@ -14,50 +17,76 @@ export function Footer() {
     (event.target as HTMLFormElement).reset();
   }
 
+  const phone = settings.phone || "09678148148";
+  const email = settings.email || "info@deshojobazar.com";
+  const phoneHref = `tel:${phone.replace(/[^+\d]/g, "")}`;
+
   return (
     <>
       <section className="bg-orange py-10 text-white sm:py-12">
-        <div className="page-wrap grid items-center gap-6 md:grid-cols-2 md:gap-10">
-          <div>
-            <h3 className="mb-2 font-serif text-[clamp(24px,5vw,34px)]">দেশজ স্বাদের খবর আগে জানুন</h3>
-            <p className="text-sm text-[#fff1e9] sm:text-base">নতুন পণ্য, মৌসুমি সংগ্রহ ও বিশেষ অফারের আপডেট পান।</p>
+        <div className="page-wrap">
+          <NoApiNote className="mb-4 bg-white/20 text-white" />
+          <div className="grid items-center gap-6 md:grid-cols-2 md:gap-10">
+            <div>
+              <h3 className="mb-2 font-serif text-[clamp(24px,5vw,34px)]">দেশজ স্বাদের খবর আগে জানুন</h3>
+              <p className="text-sm text-[#fff1e9] sm:text-base">নতুন পণ্য, মৌসুমি সংগ্রহ ও বিশেষ অফারের আপডেট পান।</p>
+            </div>
+            <form className="flex rounded-full bg-white p-[5px] max-sm:flex-col max-sm:gap-2 max-sm:bg-transparent" onSubmit={subscribe}>
+              <input required type="email" placeholder="আপনার ইমেইল" className="min-w-0 flex-1 rounded-full px-[18px] py-3 text-ink outline-none max-sm:w-full max-sm:border max-sm:border-white/40 max-sm:bg-white" />
+              <button className="rounded-full bg-green-dark px-[22px] py-3 font-extrabold text-white max-sm:w-full">Subscribe</button>
+            </form>
           </div>
-          <form className="flex rounded-full bg-white p-[5px] max-sm:flex-col max-sm:gap-2 max-sm:bg-transparent" onSubmit={subscribe}>
-            <input required type="email" placeholder="আপনার ইমেইল" className="min-w-0 flex-1 rounded-full px-[18px] py-3 text-ink outline-none max-sm:w-full max-sm:border max-sm:border-white/40 max-sm:bg-white" />
-            <button className="rounded-full bg-green-dark px-[22px] py-3 font-extrabold text-white max-sm:w-full">Subscribe</button>
-          </form>
         </div>
       </section>
       <footer className="bg-[#0b3026] px-0 pt-10 pb-5 text-[#ddebe4] sm:pt-[54px]">
         <div className="page-wrap">
-          <div className="grid gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4 xl:grid-cols-[1.4fr_1fr_1fr_1fr]">
+          <div className={`grid gap-8 sm:grid-cols-2 sm:gap-10 ${footerColumns.length ? "lg:grid-cols-4 xl:grid-cols-[1.4fr_1fr_1fr_1fr]" : "lg:grid-cols-4 xl:grid-cols-[1.4fr_1fr_1fr_1fr]"}`}>
             <div>
-              <img src="/img/logo.png" alt="Deshojo Bazar" className="mb-3.5 w-[100px] rounded-2xl bg-white p-2" />
+              <img src={settings.logo || "/img/logo.png"} alt={storeName} className="mb-3.5 w-[100px] rounded-2xl bg-white p-2" />
               <p className="max-w-[350px] text-[#aec1b7]">
-                বাংলার গ্রাম, কৃষক, ঐতিহ্য ও ঘরের স্বাদকে শহরের মানুষের কাছে সহজে পৌঁছে দেওয়ার একটি দেশজ বাজার।
+                {settings.address
+                  ? settings.address
+                  : "বাংলার গ্রাম, কৃষক, ঐতিহ্য ও ঘরের স্বাদকে শহরের মানুষের কাছে সহজে পৌঁছে দেওয়ার একটি দেশজ বাজার।"}
               </p>
             </div>
-            <FooterCol title="Shop">
-              <Link href="/shop">সব পণ্য</Link>
-              <Link href={shopHref("চাল")}>চাল</Link>
-              <Link href={shopHref("তেল")}>তেল</Link>
-              <Link href={shopHref("মধু")}>মধু</Link>
-            </FooterCol>
-            <FooterCol title="Impact">
-              <Link href="/impact">Tahirpur Haor Initiative</Link>
-              <Link href="/impact#model">Our Adaptation Model</Link>
-              <Link href="/impact#partnership">Partnership Opportunities</Link>
-              <Link href="/#beyond">Beyond Our Products</Link>
-            </FooterCol>
-            <FooterCol title="Contact">
-              <a href="tel:09678148148">09678148148</a>
-              <a href="mailto:info@deshojobazar.com">info@deshojobazar.com</a>
-              <a href="https://deshojobazar.com/">deshojobazar.com</a>
-            </FooterCol>
+            {footerColumns.length > 0 ? (
+              footerColumns.slice(0, 3).map((column) => (
+                <FooterCol key={column.title} title={column.title}>
+                  {column.links.map((link) => (
+                    <Link key={`${column.title}-${link.href}-${link.label}`} href={link.href}>
+                      {link.label}
+                    </Link>
+                  ))}
+                </FooterCol>
+              ))
+            ) : (
+              <>
+                <FooterCol title="Shop">
+                  <Link href="/shop">সব পণ্য</Link>
+                  <Link href={shopHref("চাল")}>চাল</Link>
+                  <Link href={shopHref("তেল")}>তেল</Link>
+                  <Link href={shopHref("মধু")}>মধু</Link>
+                </FooterCol>
+                <FooterCol title="Impact">
+                  <div className="mb-2">
+                    <NoApiNote />
+                  </div>
+                  <Link href="/impact">Tahirpur Haor Initiative</Link>
+                  <Link href="/impact#model">Our Adaptation Model</Link>
+                  <Link href="/impact#partnership">Partnership Opportunities</Link>
+                  <Link href="/#beyond">Beyond Our Products</Link>
+                </FooterCol>
+                <FooterCol title="Contact">
+                  <a href={phoneHref}>{phone}</a>
+                  <a href={`mailto:${email}`}>{email}</a>
+                  <a href="https://deshojobazar.com/">deshojobazar.com</a>
+                </FooterCol>
+              </>
+            )}
           </div>
           <div className="mt-[34px] flex justify-between gap-5 border-t border-white/10 pt-[18px] text-xs text-[#96aaa0] max-sm:flex-col">
-            <span>© 2026 Deshojo Bazar. All rights reserved.</span>
-            <span>Premium storefront prototype for Deshojo Bazar.</span>
+            <span>© {new Date().getFullYear()} {storeName}. All rights reserved.</span>
+            <span>Premium storefront for {storeName}.</span>
           </div>
         </div>
       </footer>

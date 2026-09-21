@@ -2,16 +2,25 @@
 
 import { useState } from "react";
 import { useStore } from "@/lib/cart";
+import { ProductImage } from "@/components/ProductImage";
+import { useSite } from "@/lib/site";
 import { money, type Product } from "@/lib/products";
 
 export function ProductDetail({ product }: { product: Product }) {
   const { add } = useStore();
+  const { settings } = useSite();
   const [qty, setQty] = useState(1);
 
   return (
     <div className="grid items-start gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-[54px]">
       <div className="overflow-hidden rounded-2xl border border-[#e7e0d4] bg-[#faf7ef] sm:rounded-3xl">
-        <img src={product.image} alt={product.name} className="aspect-square w-full object-cover" />
+        <ProductImage
+          src={product.image}
+          alt={product.name}
+          size="detail"
+          wrapClassName="aspect-square w-full"
+          className="aspect-square w-full object-cover"
+        />
       </div>
       <div>
         <span className="inline-block rounded-full bg-[#eaf2eb] px-2.5 py-1.5 text-xs font-extrabold text-green">{product.badge}</span>
@@ -56,7 +65,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <Row label="Category" value={product.category} />
           <Row label="Availability" value={product.stock ? "In stock" : "Out of stock"} />
           <Row label="Delivery" value="Area-based delivery" />
-          <Row label="Support" value="09678148148" />
+          <Row label="Support" value={settings.phone || "09678148148"} />
         </div>
       </div>
     </div>

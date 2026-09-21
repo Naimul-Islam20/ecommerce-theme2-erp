@@ -3,8 +3,26 @@ import { Hero } from "@/components/Hero";
 import { ProductCard } from "@/components/ProductCard";
 import { SectionLink } from "@/components/PageHero";
 import { VideoShop } from "@/components/VideoShop";
-import { IconLeaf, IconPhone, IconShield, IconTruck } from "@/components/Icons";
-import { products, shopCategories, shopHref } from "@/lib/products";
+import { NoApiNote } from "@/components/NoApiNote";
+import { IconLeaf, IconPhone, IconShield, IconTruck, beyondIcons } from "@/components/Icons";
+import { getCatalog, getFeaturedProducts } from "@/lib/api/catalog";
+import { shopCategories as fallbackShopCategories, shopHref } from "@/lib/products";
+
+const categoryEmojis: Record<string, string> = {
+  চাল: "🍚",
+  ডাল: "🥣",
+  মাছ: "🐟",
+  মাংস: "🍗",
+  "দুধজাত পন্য": "🥛",
+  ঘি: "🫙",
+  মধু: "🍯",
+  আলু: "🥔",
+  চিনি: "🍬",
+  ডিম: "🥚",
+  শুটকি: "🐟",
+  তেল: "🌻",
+  পিঠা: "🥞",
+};
 
 const concerns = [
   { cat: "চাল", image: "/img/hero-rice.webp", alt: "Daily staples", title: "দৈনন্দিন স্ট্যাপলস", text: "চাল ও ঘরের নিয়মিত প্রয়োজনীয় খাবার" },
@@ -16,10 +34,10 @@ const concerns = [
 ];
 
 const beyond = [
-  { n: "01", icon: "◌", title: "উৎসের গল্প", text: "পণ্যের অঞ্চল, প্রস্তুতি ও স্থানীয় প্রেক্ষাপটকে সামনে আনা।", href: "/#farm-life", label: "Farm life →" },
-  { n: "02", icon: "✦", title: "খাদ্যঐতিহ্য", text: "হারিয়ে যেতে থাকা আঞ্চলিক স্বাদ ও পুরোনো খাবারের স্মৃতি ধরে রাখা।", href: shopHref("পিঠা"), label: "Explore heritage →" },
-  { n: "03", icon: "⌂", title: "ঘরের রান্না", text: "দেশজ উপকরণকে আধুনিক পরিবারের রান্নায় সহজভাবে ফিরিয়ে আনা।", href: "/shop", label: "Shop pantry →" },
-  { n: "04", icon: "↝", title: "মানুষের সংযোগ", text: "উৎপাদক থেকে ক্রেতা—খাবারের পুরো যাত্রায় আস্থা ও সম্পর্ক গড়া।", href: "/#story", label: "Our story →" },
+  { n: "01", title: "উৎসের গল্প", text: "পণ্যের অঞ্চল, প্রস্তুতি ও স্থানীয় প্রেক্ষাপটকে সামনে আনা।", href: "/#farm-life", label: "Farm life →" },
+  { n: "02", title: "খাদ্যঐতিহ্য", text: "হারিয়ে যেতে থাকা আঞ্চলিক স্বাদ ও পুরোনো খাবারের স্মৃতি ধরে রাখা।", href: shopHref("পিঠা"), label: "Explore heritage →" },
+  { n: "03", title: "ঘরের রান্না", text: "দেশজ উপকরণকে আধুনিক পরিবারের রান্নায় সহজভাবে ফিরিয়ে আনা।", href: "/shop", label: "Shop pantry →" },
+  { n: "04", title: "মানুষের সংযোগ", text: "উৎপাদক থেকে ক্রেতা—খাবারের পুরো যাত্রায় আস্থা ও সম্পর্ক গড়া।", href: "/#story", label: "Our story →" },
 ];
 
 const reviews = [
@@ -35,11 +53,24 @@ const trustItems = [
   { icon: IconPhone, title: "কাস্টমার সাপোর্ট", text: "09678148148" },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [catalog, featured] = await Promise.all([getCatalog(), getFeaturedProducts(8)]);
+  const shopCategories =
+    catalog.categories.length > 0
+      ? catalog.categories.slice(0, 10).map((category) => ({
+          emoji: categoryEmojis[category.name] || "🛒",
+          label: category.name,
+          image: category.image || "/img/hero-farm.webp",
+        }))
+      : fallbackShopCategories;
+
   return (
     <>
       <Hero />
       <section className="border-b border-line bg-cream">
+        <div className="page-wrap pt-3">
+          <NoApiNote />
+        </div>
         <div className="page-wrap grid grid-cols-2 divide-x divide-y divide-line lg:grid-cols-4 lg:divide-y-0">
           {trustItems.map(({ icon: Icon, title, text }) => (
             <div key={title} className="flex items-center justify-center gap-2.5 px-3 py-4 sm:gap-3 sm:px-[18px] sm:py-[22px]">
@@ -80,6 +111,7 @@ export default function HomePage() {
 
       <section id="concerns" className="overflow-x-clip bg-[#f1ead7] py-8 sm:py-12">
         <div className="page-wrap">
+          <NoApiNote />
           <div className="mb-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end sm:gap-6">
             <div>
               <div className="text-xs font-extrabold tracking-[2px] text-orange uppercase">Shop by concerns</div>
@@ -120,7 +152,7 @@ export default function HomePage() {
             <SectionLink href="/shop">View all →</SectionLink>
           </div>
           <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4 xl:gap-6">
-            {products.slice(0, 8).map((product) => (
+            {featured.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
@@ -145,6 +177,7 @@ export default function HomePage() {
 
       <section id="story" className="py-8 sm:py-12">
         <div className="page-wrap">
+          <NoApiNote />
           <div className="grid overflow-hidden rounded-[22px] bg-green-dark text-white shadow-lift sm:rounded-[28px] lg:grid-cols-[1.06fr_0.94fr]">
             <div className="min-h-[260px] bg-cover bg-center sm:min-h-[400px] lg:min-h-[530px]" style={{ backgroundImage: "url('/img/hero-farm.webp')" }} />
             <div className="flex flex-col justify-center px-5 py-8 sm:px-8 sm:py-10 lg:p-[62px]">
@@ -176,6 +209,7 @@ export default function HomePage() {
 
       <section id="farm-life" className="bg-paper py-8 sm:py-12">
         <div className="page-wrap">
+          <NoApiNote />
           <div className="mb-6 grid items-end gap-4 lg:grid-cols-[1fr_0.9fr] lg:gap-[60px]">
             <div>
               <div className="text-xs font-extrabold tracking-[2px] text-orange uppercase">Farm life</div>
@@ -219,7 +253,9 @@ export default function HomePage() {
       </section>
 
       <section className="bg-cream-2 py-8 sm:py-12">
-        <div className="page-wrap grid gap-4 sm:gap-[22px] lg:grid-cols-[1.35fr_0.65fr]">
+        <div className="page-wrap">
+          <NoApiNote />
+          <div className="grid gap-4 sm:gap-[22px] lg:grid-cols-[1.35fr_0.65fr]">
           <Link href={shopHref("চাল")} className="relative min-h-[260px] overflow-hidden rounded-3xl text-white sm:min-h-[330px] lg:min-h-[400px]" style={{ backgroundImage: "url('/img/hero-rice.webp')", backgroundSize: "cover", backgroundPosition: "center" }}>
             <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(5,34,25,.74),rgba(5,34,25,.05)_65%)]" />
             <div className="absolute right-4 bottom-4 left-4 z-[2] sm:right-7 sm:bottom-7 sm:left-7">
@@ -236,11 +272,13 @@ export default function HomePage() {
               <p className="m-0 text-sm text-[#eef5f1] sm:text-base">দেশজ স্বাদের ঐতিহ্যবাহী সংগ্রহ।</p>
             </div>
           </Link>
+          </div>
         </div>
       </section>
 
       <section id="beyond" className="overflow-x-clip bg-[#e4ecdf] py-8 sm:py-12">
         <div className="page-wrap">
+          <NoApiNote />
           <div className="mb-8 grid items-end gap-4 lg:mb-[38px] lg:grid-cols-2 lg:gap-[70px]">
             <div>
               <div className="text-xs font-extrabold tracking-[2px] text-orange uppercase">Beyond our products</div>
@@ -251,21 +289,28 @@ export default function HomePage() {
             </p>
           </div>
           <div className="flex snap-x gap-3 overflow-x-auto pb-2 pr-1 sm:gap-4 md:grid md:grid-cols-2 md:overflow-visible xl:grid-cols-4">
-            {beyond.map((card) => (
+            {beyond.map((card, index) => {
+              const Icon = beyondIcons[index % beyondIcons.length];
+              return (
               <article key={card.n} className="relative flex min-h-[280px] min-w-[78vw] snap-start flex-col rounded-[22px] border border-[#d2dccb] bg-[#fffdf8] p-5 transition hover:-translate-y-1 hover:shadow-lift sm:min-w-[280px] sm:p-6 md:min-h-[310px] md:min-w-0">
                 <span className="absolute top-5 right-5 text-[11px] font-extrabold text-[#9da99f]">{card.n}</span>
-                <div className="mb-8 grid h-[54px] w-[54px] place-items-center rounded-full bg-green-dark text-[22px] text-white sm:mb-10">{card.icon}</div>
+                <div className="mb-8 grid h-[54px] w-[54px] place-items-center rounded-full bg-green-dark text-white sm:mb-10">
+                  <Icon className="h-[22px] w-[22px]" />
+                </div>
                 <h3 className="mb-2 font-serif text-[22px] text-green-dark sm:text-2xl">{card.title}</h3>
                 <p className="mb-[18px] text-sm text-muted">{card.text}</p>
                 <Link href={card.href} className="mt-auto text-[13px] font-extrabold text-green">{card.label}</Link>
               </article>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
       <section className="bg-[#0a3e31] py-8 text-white sm:py-12">
-        <div className="page-wrap grid items-center gap-8 lg:grid-cols-[1fr_auto] lg:gap-12">
+        <div className="page-wrap">
+          <NoApiNote className="mb-4 bg-white/15 text-[#f5d59c]" />
+          <div className="grid items-center gap-8 lg:grid-cols-[1fr_auto] lg:gap-12">
           <div>
             <div className="text-xs font-extrabold tracking-[2px] text-orange uppercase">Climate & community impact</div>
             <h2 className="mt-1.5 max-w-[820px] font-serif text-[clamp(26px,5vw,50px)] leading-[1.1] text-white">
@@ -283,11 +328,13 @@ export default function HomePage() {
             <b className="font-serif text-[34px]">HAOR</b>
             <span className="text-[10px] tracking-[1.5px] text-[#f1d58f] uppercase">Tahirpur • Sunamganj</span>
           </div>
+          </div>
         </div>
       </section>
 
       <section className="bg-[#e7efe8] py-8 text-center sm:py-12">
         <div className="page-wrap">
+          <NoApiNote />
           <p className="mx-auto max-w-[900px] px-1 font-serif text-[clamp(22px,4.5vw,47px)] leading-snug text-green-dark">
             “শুধু পণ্য নয়—বাংলার মাটি, মানুষের শ্রম আর ঘরের পরিচিত স্বাদকে আমরা পৌঁছে দিতে চাই প্রতিটি অর্ডারে।”
           </p>
@@ -297,6 +344,7 @@ export default function HomePage() {
 
       <section id="reviews" className="py-8 sm:py-12">
         <div className="page-wrap">
+          <NoApiNote />
           <div className="mb-6">
             <div className="text-xs font-extrabold tracking-[2px] text-orange uppercase">Customer love</div>
             <h2 className="mt-1.5 font-serif text-[clamp(26px,5vw,50px)] leading-[1.1] text-green-dark">মানুষ কী বলছেন</h2>

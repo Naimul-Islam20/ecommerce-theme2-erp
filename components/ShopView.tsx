@@ -3,13 +3,21 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ProductCard } from "@/components/ProductCard";
-import { categories, products } from "@/lib/products";
+import { useCatalog } from "@/lib/catalog";
+import { categories as fallbackCategories } from "@/lib/products";
 
 export function ShopView() {
   const params = useSearchParams();
+  const { products, categories: apiCategories } = useCatalog();
   const [active, setActive] = useState(params.get("cat") || "সব পণ্য");
   const [term, setTerm] = useState("");
   const [sort, setSort] = useState("featured");
+
+  const categoryLabels = useMemo(() => {
+    const names = apiCategories.map((category) => category.name).filter(Boolean);
+    if (!names.length) return fallbackCategories;
+    return ["সব পণ্য", ...names];
+  }, [apiCategories]);
 
   useEffect(() => {
     setActive(params.get("cat") || "সব পণ্য");
@@ -17,7 +25,10 @@ export function ShopView() {
 
   const filtered = useMemo(() => {
     const next = products.filter((product) => {
-      const matchesCategory = active === "সব পণ্য" || product.category === active;
+      const matchesCategory =
+        active === "সব পণ্য" ||
+        product.category === active ||
+        product.category.toLowerCase() === active.toLowerCase();
       const haystack = `${product.name}${product.en}${product.category}`.toLowerCase();
       return matchesCategory && (!term || haystack.includes(term.toLowerCase()));
     });
@@ -25,7 +36,7 @@ export function ShopView() {
     if (sort === "high") next.sort((a, b) => b.price - a.price);
     if (sort === "rating") next.sort((a, b) => b.rating - a.rating);
     return next;
-  }, [active, term, sort]);
+  }, [products, active, term, sort]);
 
   return (
     <section className="py-8 sm:py-12">
@@ -33,7 +44,7 @@ export function ShopView() {
         <aside className="border border-line bg-white p-3 sm:p-4 lg:sticky lg:top-[90px] lg:self-start">
           <h3 className="mb-3 text-[12px] font-semibold tracking-[0.12em] text-muted uppercase">Categories</h3>
           <div className="flex flex-wrap gap-1.5 lg:flex-col lg:gap-1">
-            {categories.map((category) => (
+            {categoryLabels.map((category) => (
               <button
                 key={category}
                 className={`min-h-10 rounded-md px-3 py-2 text-left text-[13px] transition lg:min-h-0 lg:rounded-none ${

@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
+import { NoApiNote } from "@/components/NoApiNote";
+import { heritageIcons } from "@/components/Icons";
 
 export function HeritagePage({
   eyebrow,
@@ -26,6 +28,9 @@ export function HeritagePage({
 }) {
   return (
     <>
+      <div className="page-wrap pt-4">
+        <NoApiNote />
+      </div>
       <PageHero eyebrow={eyebrow} title={title} description={description} />
       <section className="py-8 sm:py-12">
         <div className="page-wrap">
@@ -42,14 +47,19 @@ export function HeritagePage({
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {cards.map((card, index) => (
-              <article key={card} className="relative min-h-[200px] rounded-[22px] border border-[#d9dfd1] bg-[#fffdf8] p-5 sm:min-h-[230px] sm:p-[25px] lg:min-h-[270px]">
-                <span className="absolute top-[18px] right-5 text-[11px] font-black text-[#a3ada5]">0{index + 1}</span>
-                <div className="mb-8 grid h-[54px] w-[54px] place-items-center rounded-full bg-green-dark text-[22px] text-white sm:mb-[35px] lg:mb-[55px]">◌</div>
-                <h3 className="mb-2.5 font-serif text-[20px] text-green-dark sm:text-[22px]">{card}</h3>
-                <p className="m-0 text-sm leading-relaxed text-muted">Discover the people, practices and local knowledge behind this part of Deshojo Bazar.</p>
-              </article>
-            ))}
+            {cards.map((card, index) => {
+              const Icon = heritageIcons[index % heritageIcons.length];
+              return (
+                <article key={card} className="relative min-h-[200px] rounded-[22px] border border-[#d9dfd1] bg-[#fffdf8] p-5 sm:min-h-[230px] sm:p-[25px] lg:min-h-[270px]">
+                  <span className="absolute top-[18px] right-5 text-[11px] font-black text-[#a3ada5]">0{index + 1}</span>
+                  <div className="mb-8 grid h-[54px] w-[54px] place-items-center rounded-full bg-green-dark text-white sm:mb-[35px] lg:mb-[55px]">
+                    <Icon className="h-[22px] w-[22px]" />
+                  </div>
+                  <h3 className="mb-2.5 font-serif text-[20px] text-green-dark sm:text-[22px]">{card}</h3>
+                  <p className="m-0 text-sm leading-relaxed text-muted">Discover the people, practices and local knowledge behind this part of Deshojo Bazar.</p>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>

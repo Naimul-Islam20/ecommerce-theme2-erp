@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useStore } from "@/lib/cart";
+import { ProductImage } from "@/components/ProductImage";
 import { money, productHref, type Product } from "@/lib/products";
 
 export function ProductCard({ product }: { product: Product }) {
@@ -10,12 +11,12 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <article className="relative min-w-0 overflow-hidden rounded-[18px] border border-[#ebe5d7] bg-white">
-      <Link href={productHref(product.id)} className="relative block aspect-square overflow-hidden bg-[#faf7ef]">
+      <Link href={productHref(product)} className="relative block aspect-square overflow-hidden bg-[#faf7ef]">
         <span className="absolute top-2 left-2 z-[2] rounded-full bg-green px-2 py-1 text-[10px] font-extrabold text-white sm:top-3 sm:left-3 sm:px-2.5 sm:py-[7px] sm:text-[11px]">{product.badge}</span>
-        <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
+        <ProductImage src={product.image} alt={product.name} size="card" className="h-full w-full object-cover" />
       </Link>
       <div className="px-2.5 pt-2 pb-2.5 sm:px-3.5 sm:pt-2.5 sm:pb-3">
-        <Link href={productHref(product.id)}>
+        <Link href={productHref(product)}>
           <h3 className="mb-1 line-clamp-2 text-[13px] leading-snug font-extrabold sm:mb-1.5 sm:text-[17px]">{product.name}</h3>
         </Link>
         <div className="mb-2 flex items-center justify-between gap-1 sm:mb-2.5 sm:gap-2">

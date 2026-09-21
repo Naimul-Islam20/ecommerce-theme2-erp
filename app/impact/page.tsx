@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { heritageIcons } from "@/components/Icons";
+import { NoApiNote } from "@/components/NoApiNote";
 
 export const metadata: Metadata = {
   title: "Haor Climate & Livelihood Initiative",
@@ -6,10 +8,10 @@ export const metadata: Metadata = {
 };
 
 const model = [
-  ["01", "◌", "Grow Murta", "Encourage Murta cultivation across suitable parts of the haor region and strengthen local knowledge on propagation and management."],
-  ["02", "⌁", "Build skills", "Train community members to process Murta and produce Shital Pati and diversified handicrafts with improved quality and design."],
-  ["03", "◇", "Create value", "Connect craftsmanship with product development, market access and fairer livelihood opportunities rooted in local cultural heritage."],
-  ["04", "↗", "Strengthen resilience", "Use a locally appropriate wetland plant as part of a broader strategy for erosion resilience, ecosystem health and diversified income."],
+  ["01", "Grow Murta", "Encourage Murta cultivation across suitable parts of the haor region and strengthen local knowledge on propagation and management."],
+  ["02", "Build skills", "Train community members to process Murta and produce Shital Pati and diversified handicrafts with improved quality and design."],
+  ["03", "Create value", "Connect craftsmanship with product development, market access and fairer livelihood opportunities rooted in local cultural heritage."],
+  ["04", "Strengthen resilience", "Use a locally appropriate wetland plant as part of a broader strategy for erosion resilience, ecosystem health and diversified income."],
 ];
 
 const outcomes = [
@@ -30,6 +32,9 @@ const funding = [
 export default function ImpactPage() {
   return (
     <div className="bg-paper">
+      <div className="page-wrap pt-4">
+        <NoApiNote />
+      </div>
       <section className="relative overflow-hidden bg-[linear-gradient(135deg,#073f31_0%,#0b5a43_55%,#386e54_100%)] text-white">
         <div className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_15%_20%,rgba(255,255,255,.22)_0_2px,transparent_3px),radial-gradient(circle_at_75%_75%,rgba(233,197,111,.3)_0_2px,transparent_3px)] bg-[length:46px_46px,70px_70px]" />
         <div className="page-wrap relative z-[2] grid items-center gap-8 py-12 sm:gap-10 sm:py-16 lg:min-h-[690px] lg:grid-cols-[1.12fr_0.88fr] lg:gap-[70px] lg:py-[85px]">
@@ -103,14 +108,19 @@ export default function ImpactPage() {
             <p className="mt-3 max-w-[560px] text-muted">The programme combines ecosystem stewardship with practical livelihood development, so environmental resilience and household opportunity reinforce each other.</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {model.map(([n, icon, title, text]) => (
+            {model.map(([n, title, text], index) => {
+              const Icon = heritageIcons[index % heritageIcons.length];
+              return (
               <article key={n} className="relative min-h-[260px] rounded-3xl border border-[#d9dfd1] bg-[#fffdf8] p-[26px] sm:min-h-[315px]">
                 <span className="absolute top-[19px] right-5 text-[11px] font-black text-[#a3ada5]">{n}</span>
-                <div className="mb-[52px] grid h-14 w-14 place-items-center rounded-full bg-green-dark text-[23px] text-white">{icon}</div>
+                <div className="mb-[52px] grid h-14 w-14 place-items-center rounded-full bg-green-dark text-white">
+                  <Icon className="h-6 w-6" />
+                </div>
                 <h3 className="mb-[11px] font-serif text-[25px] text-green-dark">{title}</h3>
                 <p className="m-0 text-sm leading-relaxed text-muted">{text}</p>
               </article>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
